@@ -6,14 +6,14 @@ using UnityEngine;
 public class DialogueEvent : DialogueMessages
 {
     [SerializeField] public DialogueMessages NextDialogue;
-    
+
     List<Action> listeners = new List<Action>();
 
     public void AddListener( Action action )
     {
         listeners.Add( action );
     }
-    
+
     public void RemoveListener( Action action )
     {
         listeners.Remove( action );
@@ -21,7 +21,11 @@ public class DialogueEvent : DialogueMessages
 
     public void Invoke()
     {
-        foreach ( var listener in listeners )
-            listener.Invoke();
+        //forr in case listener removes itself
+        for ( int i = listeners.Count - 1; i >= 0; i-- )
+        {
+            var l = listeners[i];
+            l.Invoke();
+        }
     }
 }

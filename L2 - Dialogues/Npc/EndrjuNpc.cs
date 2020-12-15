@@ -7,8 +7,15 @@ public class EndrjuNpc : MonoBehaviour
 {
     [SerializeField] DialogueEvent dialogueEvent;
 
-    void Awake()
+    void OnEnable()
     {
-        dialogueEvent.AddListener( () => Destroy( gameObject ) );
+        dialogueEvent.AddListener( OnDialogEvent );
     }
+
+    void OnDisable()
+    {
+        dialogueEvent.RemoveListener( OnDialogEvent );
+    }
+
+    void OnDialogEvent() => Destroy( gameObject );
 }
